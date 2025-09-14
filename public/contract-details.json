@@ -1,0 +1,75 @@
+{
+  "c1": {
+    "id": "c1",
+    "name": "MSA 2025",
+    "parties": "Microsoft & ABC Corp",
+    "start": "2023-01-01",
+    "expiry": "2025-12-31",
+    "status": "Active",
+    "risk": "Medium",
+    "clauses": [
+      { "title": "Termination", "summary": "90 days notice period required for termination by either party.", "confidence": 0.82 },
+      { "title": "Liability Cap", "summary": "Total liability limited to 12 months of fees paid.", "confidence": 0.87 },
+      { "title": "Data Protection", "summary": "GDPR compliance required for all data processing activities.", "confidence": 0.91 },
+      { "title": "Intellectual Property", "summary": "Customer retains ownership of their data and intellectual property.", "confidence": 0.78 },
+      { "title": "Service Availability", "summary": "99.9% uptime guarantee with SLA credits for downtime.", "confidence": 0.85 }
+    ],
+    "insights": [
+      { "risk": "High", "message": "Liability cap excludes data breach costs and regulatory fines." },
+      { "risk": "Medium", "message": "Renewal auto-renews unless cancelled 60 days before expiry." },
+      { "risk": "Low", "message": "Force majeure clause may limit liability during unforeseen events." }
+    ],
+    "evidence": [
+      { "source": "Section 12.2", "snippet": "Total liability limited to 12 months' fees paid under this Agreement.", "relevance": 0.91 },
+      { "source": "Section 8.1", "snippet": "Either party may terminate this Agreement with 90 days written notice.", "relevance": 0.88 },
+      { "source": "Section 15.3", "snippet": "This Agreement shall automatically renew for successive one-year terms.", "relevance": 0.85 }
+    ]
+  },
+  "c2": {
+    "id": "c2",
+    "name": "Network Services Agreement",
+    "parties": "TelNet & ABC Corp",
+    "start": "2022-10-10",
+    "expiry": "2025-10-10",
+    "status": "Renewal Due",
+    "risk": "High",
+    "clauses": [
+      { "title": "Service Level", "summary": "99.5% network availability with penalties for downtime.", "confidence": 0.89 },
+      { "title": "Bandwidth Guarantee", "summary": "Minimum 1Gbps dedicated bandwidth provisioned.", "confidence": 0.92 },
+      { "title": "Maintenance Windows", "summary": "Scheduled maintenance during off-peak hours only.", "confidence": 0.76 },
+      { "title": "Security Requirements", "summary": "End-to-end encryption required for all data transmission.", "confidence": 0.88 }
+    ],
+    "insights": [
+      { "risk": "High", "message": "Penalty structure may not cover full business impact of outages." },
+      { "risk": "High", "message": "Renewal terms include 15% price increase with no negotiation window." },
+      { "risk": "Medium", "message": "Force majeure clause is overly broad and may limit recourse." }
+    ],
+    "evidence": [
+      { "source": "Section 4.2", "snippet": "Service credits equal to 1% of monthly fee for each hour of downtime.", "relevance": 0.94 },
+      { "source": "Section 7.1", "snippet": "Renewal pricing subject to 15% annual increase.", "relevance": 0.91 },
+      { "source": "Section 9.3", "snippet": "Force majeure includes any event beyond reasonable control.", "relevance": 0.87 }
+    ]
+  },
+  "c3": {
+    "id": "c3",
+    "name": "Cloud Infrastructure Contract",
+    "parties": "AWS & TechStart Inc",
+    "start": "2022-08-15",
+    "expiry": "2024-08-15",
+    "status": "Expired",
+    "risk": "Low",
+    "clauses": [
+      { "title": "Data Residency", "summary": "Data must remain within specified geographic regions.", "confidence": 0.95 },
+      { "title": "Backup Policy", "summary": "Daily automated backups with 30-day retention period.", "confidence": 0.88 },
+      { "title": "Compliance", "summary": "SOC 2 Type II and ISO 27001 compliance required.", "confidence": 0.92 }
+    ],
+    "insights": [
+      { "risk": "Low", "message": "Contract expired without auto-renewal, clean termination." },
+      { "risk": "Low", "message": "All data migration completed successfully before expiry." }
+    ],
+    "evidence": [
+      { "source": "Section 5.1", "snippet": "Customer data shall be stored exclusively in US East region.", "relevance": 0.89 },
+      { "source": "Section 11.2", "snippet": "Contract expires on August 15, 2024 with no automatic renewal.", "relevance": 0.95 }
+    ]
+  }
+}

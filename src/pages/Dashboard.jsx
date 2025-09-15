@@ -11,7 +11,8 @@ import {
   ShieldCheckIcon,
   BellIcon,
   PlusIcon,
-  ChevronDownIcon
+  ChevronDownIcon,
+  Bars3Icon
 } from '@heroicons/react/24/outline';
 import { contractsAPI } from '../services/api';
 import { useApp } from '../contexts/AppContext';
@@ -22,7 +23,7 @@ import ErrorState from '../components/UI/ErrorState';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { setUploadModalOpen } = useApp();
+  const { setUploadModalOpen, sidebarOpen, setSidebarOpen } = useApp();
   const { user, logout } = useAuth();
   const [contracts, setContracts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -155,9 +156,17 @@ const Dashboard = () => {
         {/* Mobile Header */}
         <div className="lg:hidden">
           <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-xl font-bold gradient-text">Contracts Dashboard</h1>
-              <p className="text-gray-600 text-sm">AI-powered contract insights</p>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <Bars3Icon className="w-6 h-6 text-gray-600" />
+              </button>
+              <div>
+                <h1 className="text-xl font-bold gradient-text">Contracts Dashboard</h1>
+                <p className="text-gray-600 text-sm">AI-powered contract insights</p>
+              </div>
             </div>
             <button
               onClick={() => setUserMenuOpen(!userMenuOpen)}

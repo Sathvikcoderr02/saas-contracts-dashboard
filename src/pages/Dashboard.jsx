@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -39,6 +39,24 @@ const Dashboard = () => {
     hasNext: false,
     hasPrev: false
   });
+  const userMenuRef = useRef(null);
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    if (userMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userMenuOpen]);
 
   const fetchContracts = async (page = 1, searchTerm = '', status = '', risk = '') => {
     try {
@@ -143,11 +161,15 @@ const Dashboard = () => {
             </div>
             <button
               onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative group"
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center shadow-md">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
                 <span className="text-sm font-bold text-white">{user?.name?.charAt(0) || 'U'}</span>
               </div>
+              {userMenuOpen && (
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+              )}
+              <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </button>
           </div>
           
@@ -180,23 +202,47 @@ const Dashboard = () => {
 
           {/* Mobile User Menu */}
           {userMenuOpen && (
-            <div className="mt-4 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+            <div ref={userMenuRef} className="mt-4 bg-white rounded-lg shadow-lg border border-gray-200 py-2 animate-slide-in">
               <div className="px-4 py-2 border-b border-gray-200">
                 <p className="text-sm font-medium text-gray-900">{user?.name}</p>
                 <p className="text-xs text-blue-600">Administrator</p>
               </div>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+              <a 
+                href="#" 
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setUserMenuOpen(false);
+                }}
+              >
                 Profile Settings
               </a>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+              <a 
+                href="#" 
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setUserMenuOpen(false);
+                }}
+              >
                 Account Preferences
               </a>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+              <a 
+                href="#" 
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setUserMenuOpen(false);
+                }}
+              >
                 Help & Support
               </a>
               <hr className="my-1 border-gray-200" />
               <button
-                onClick={logout}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  logout();
+                }}
                 className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
               >
                 Sign Out

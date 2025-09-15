@@ -132,90 +132,164 @@ const Dashboard = () => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white shadow-lg border-b border-secondary-200 p-4"
+        className="bg-white shadow-lg border-b border-gray-200 p-4"
       >
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-          {/* Left side - Title and stats */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
+        {/* Mobile Header */}
+        <div className="lg:hidden">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold gradient-text">Contracts Dashboard</h1>
-              <p className="text-secondary-600 mt-1 text-sm">Manage and monitor your contract portfolio with AI-powered insights</p>
+              <h1 className="text-xl font-bold gradient-text">Contracts Dashboard</h1>
+              <p className="text-gray-600 text-sm">AI-powered contract insights</p>
             </div>
-            <div className="mt-2 sm:mt-0">
-              <div className="glass-effect rounded-lg px-4 py-2">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-success-500 rounded-full pulse-glow"></div>
-                  <span className="text-sm font-medium text-secondary-700">
-                    {pagination.total} contracts found
-                  </span>
-                </div>
+            <button
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center shadow-md">
+                <span className="text-sm font-bold text-white">{user?.name?.charAt(0) || 'U'}</span>
+              </div>
+            </button>
+          </div>
+          
+          {/* Mobile Stats */}
+          <div className="mb-4">
+            <div className="bg-gray-50 rounded-lg px-4 py-2">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-gray-700">
+                  {pagination.total} contracts found
+                </span>
               </div>
             </div>
           </div>
-          
-          {/* Right side - Quick Actions */}
-          <div className="flex items-center space-x-4">
-            {/* Upload button */}
+
+          {/* Mobile Actions */}
+          <div className="flex items-center space-x-2">
             <button
               onClick={() => setUploadModalOpen(true)}
-              className="btn-primary flex items-center space-x-2 shadow-lg hover:shadow-xl transition-all duration-200 py-2 px-3 text-sm"
+              className="flex-1 btn-primary flex items-center justify-center space-x-2 py-2 px-3 text-sm"
             >
               <PlusIcon className="w-4 h-4" />
-              <span className="hidden sm:inline">Upload Contract</span>
+              <span>Upload</span>
             </button>
-
-            {/* Notifications */}
-            <button className="relative p-2 rounded-lg hover:bg-secondary-100 transition-colors group">
-              <BellIcon className="w-5 h-5 text-secondary-600 group-hover:text-primary-600 transition-colors" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-danger-500 rounded-full animate-pulse"></span>
+            <button className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <BellIcon className="w-5 h-5 text-gray-600" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
             </button>
+          </div>
 
-            {/* User menu */}
-            <div className="relative">
+          {/* Mobile User Menu */}
+          {userMenuOpen && (
+            <div className="mt-4 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+              <div className="px-4 py-2 border-b border-gray-200">
+                <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                <p className="text-xs text-blue-600">Administrator</p>
+              </div>
+              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                Profile Settings
+              </a>
+              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                Account Preferences
+              </a>
+              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                Help & Support
+              </a>
+              <hr className="my-1 border-gray-200" />
               <button
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center space-x-3 p-2 rounded-xl hover:bg-gradient-to-r hover:from-secondary-50 hover:to-secondary-100 transition-all duration-200 group"
+                onClick={logout}
+                className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
               >
-                <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-md">
-                  <span className="text-sm font-bold text-white">{user?.name?.charAt(0) || 'U'}</span>
+                Sign Out
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Header */}
+        <div className="hidden lg:block">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+            {/* Left side - Title and stats */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
+              <div>
+                <h1 className="text-2xl font-bold gradient-text">Contracts Dashboard</h1>
+                <p className="text-gray-600 mt-1 text-sm">Manage and monitor your contract portfolio with AI-powered insights</p>
+              </div>
+              <div className="mt-2 sm:mt-0">
+                <div className="glass-effect rounded-lg px-4 py-2">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium text-gray-700">
+                      {pagination.total} contracts found
+                    </span>
+                  </div>
                 </div>
-                <div className="hidden sm:block text-left">
-                  <p className="text-sm font-medium text-secondary-900">{user?.name}</p>
-                  <p className="text-xs text-primary-600 font-medium">Administrator</p>
-                </div>
-                <ChevronDownIcon className="w-4 h-4 text-secondary-500 group-hover:text-primary-600 transition-colors" />
+              </div>
+            </div>
+            
+            {/* Right side - Quick Actions */}
+            <div className="flex items-center space-x-4">
+              {/* Upload button */}
+              <button
+                onClick={() => setUploadModalOpen(true)}
+                className="btn-primary flex items-center space-x-2 shadow-lg hover:shadow-xl transition-all duration-200 py-2 px-3 text-sm"
+              >
+                <PlusIcon className="w-4 h-4" />
+                <span className="hidden sm:inline">Upload Contract</span>
               </button>
 
-              {/* Dropdown menu */}
-              {userMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-secondary-200 py-1 z-50">
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-secondary-700 hover:bg-secondary-50"
-                  >
-                    Profile Settings
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-secondary-700 hover:bg-secondary-50"
-                  >
-                    Account Preferences
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-secondary-700 hover:bg-secondary-50"
-                  >
-                    Help & Support
-                  </a>
-                  <hr className="my-1 border-secondary-200" />
-                  <button
-                    onClick={logout}
-                    className="block w-full text-left px-4 py-2 text-sm text-danger-600 hover:bg-danger-50"
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              )}
+              {/* Notifications */}
+              <button className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors group">
+                <BellIcon className="w-5 h-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
+                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+              </button>
+
+              {/* User menu */}
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center space-x-3 p-2 rounded-xl hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 transition-all duration-200 group"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center shadow-md">
+                    <span className="text-sm font-bold text-white">{user?.name?.charAt(0) || 'U'}</span>
+                  </div>
+                  <div className="hidden sm:block text-left">
+                    <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                    <p className="text-xs text-blue-600 font-medium">Administrator</p>
+                  </div>
+                  <ChevronDownIcon className="w-4 h-4 text-gray-500 group-hover:text-blue-600 transition-colors" />
+                </button>
+
+                {/* Dropdown menu */}
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      Profile Settings
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      Account Preferences
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      Help & Support
+                    </a>
+                    <hr className="my-1 border-gray-200" />
+                    <button
+                      onClick={logout}
+                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -226,40 +300,38 @@ const Dashboard = () => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white shadow-lg border-b border-secondary-200 p-4"
+        className="bg-white shadow-lg border-b border-gray-200 p-4"
       >
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0 lg:space-x-4">
+        {/* Mobile Search and Filters */}
+        <div className="lg:hidden space-y-4">
           {/* Search */}
-          <div className="flex-1">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-5 w-5 text-secondary-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search contracts by name or parties..."
-                value={search}
-                onChange={handleSearch}
-                className="block w-full pl-10 pr-3 py-2 border border-secondary-300 rounded-lg text-sm placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              />
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
             </div>
+            <input
+              type="text"
+              placeholder="Search contracts..."
+              value={search}
+              onChange={handleSearch}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
           </div>
 
-          {/* Filters */}
-          <div className="flex flex-wrap items-center space-x-4">
+          {/* Mobile Filters */}
+          <div className="space-y-3">
             {/* Status Filter */}
-            <div className="flex items-center space-x-2">
-              <FunnelIcon className="w-4 h-4 text-secondary-500" />
-              <span className="text-sm font-medium text-secondary-700">Status:</span>
-              <div className="flex space-x-1">
-                {['Active', 'Expired', 'Renewal Due'].map((status) => (
+            <div>
+              <span className="text-sm font-medium text-gray-700 block mb-2">Status</span>
+              <div className="flex flex-wrap gap-2">
+                {['All', 'Active', 'Expired', 'Renewal Due'].map((status) => (
                   <button
                     key={status}
-                    onClick={() => handleStatusFilter(status)}
-                    className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
+                    onClick={() => setStatusFilter(status === 'All' ? '' : status)}
+                    className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
                       statusFilter === status
-                        ? 'bg-primary-100 text-primary-700'
-                        : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'
+                        ? 'bg-blue-100 text-blue-800 border border-blue-200'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
                     {status}
@@ -269,17 +341,17 @@ const Dashboard = () => {
             </div>
 
             {/* Risk Filter */}
-            <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium text-secondary-700">Risk:</span>
-              <div className="flex space-x-1">
-                {['Low', 'Medium', 'High'].map((risk) => (
+            <div>
+              <span className="text-sm font-medium text-gray-700 block mb-2">Risk Level</span>
+              <div className="flex flex-wrap gap-2">
+                {['All', 'Low', 'Medium', 'High'].map((risk) => (
                   <button
                     key={risk}
-                    onClick={() => handleRiskFilter(risk)}
-                    className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
+                    onClick={() => setRiskFilter(risk === 'All' ? '' : risk)}
+                    className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
                       riskFilter === risk
                         ? getRiskBadge(risk)
-                        : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
                     {risk}
@@ -289,9 +361,74 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+
+        {/* Desktop Search and Filters */}
+        <div className="hidden lg:block">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0 lg:space-x-4">
+            {/* Search */}
+            <div className="flex-1">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search contracts by name or parties..."
+                  value={search}
+                  onChange={handleSearch}
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-wrap items-center space-x-4">
+              {/* Status Filter */}
+              <div className="flex items-center space-x-2">
+                <FunnelIcon className="w-4 h-4 text-gray-500" />
+                <span className="text-sm font-medium text-gray-700">Status:</span>
+                <div className="flex space-x-1">
+                  {['Active', 'Expired', 'Renewal Due'].map((status) => (
+                    <button
+                      key={status}
+                      onClick={() => handleStatusFilter(status)}
+                      className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
+                        statusFilter === status
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {status}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Risk Filter */}
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-700">Risk:</span>
+                <div className="flex space-x-1">
+                  {['Low', 'Medium', 'High'].map((risk) => (
+                    <button
+                      key={risk}
+                      onClick={() => handleRiskFilter(risk)}
+                      className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
+                        riskFilter === risk
+                          ? getRiskBadge(risk)
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {risk}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </motion.div>
 
-      {/* Contracts Table */}
+      {/* Contracts Display - Table on Desktop, Cards on Mobile */}
       {contracts.length === 0 ? (
         <EmptyState
           icon={DocumentTextIcon}
@@ -299,104 +436,188 @@ const Dashboard = () => {
           description="Try adjusting your search or filter criteria"
         />
       ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white shadow-lg border border-secondary-200 overflow-hidden"
-        >
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-secondary-200">
-              <thead className="bg-gradient-to-r from-secondary-50 to-secondary-100">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">
-                    Contract Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">
-                    Parties
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">
-                    Expiry Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">
-                    Risk Score
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-secondary-200">
-                {contracts.map((contract, index) => (
-                  <motion.tr
-                    key={contract.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="hover:bg-secondary-50 transition-colors"
+        <>
+          {/* Desktop Table View */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="hidden lg:block bg-white shadow-lg border border-gray-200 overflow-hidden"
+          >
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Contract Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Parties
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Expiry Date
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Risk Score
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {contracts.map((contract, index) => (
+                    <motion.tr
+                      key={contract.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center mr-4 shadow-sm">
+                            <DocumentTextIcon className="w-6 h-6 text-blue-600" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">{contract.name}</div>
+                            <div className="text-sm text-gray-500">ID: {contract.id}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{contract.parties}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {new Date(contract.expiry).toLocaleDateString()}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {getDaysUntilExpiry(contract.expiry) > 0 
+                            ? `${getDaysUntilExpiry(contract.expiry)} days left`
+                            : 'Expired'
+                          }
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          contract.status === 'Active' 
+                            ? 'bg-green-100 text-green-800' 
+                            : contract.status === 'Expired'
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {getStatusIcon(contract.status)}
+                          <span className="ml-1">{contract.status}</span>
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRiskBadge(contract.risk)}`}>
+                            {getRiskIcon(contract.risk)}
+                            <span className="ml-1">{contract.risk}</span>
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button
+                          onClick={() => navigate(`/contracts/${contract.id}`)}
+                          className="text-blue-600 hover:text-blue-900 transition-colors"
+                        >
+                          View Details
+                        </button>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
+
+          {/* Mobile Card View */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="lg:hidden space-y-4"
+          >
+            {contracts.map((contract, index) => (
+              <motion.div
+                key={contract.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="bg-white rounded-xl shadow-lg border border-gray-200 p-4 hover:shadow-xl transition-all duration-200"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center shadow-sm">
+                      <DocumentTextIcon className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg font-semibold text-gray-900 truncate">
+                        {contract.name}
+                      </h3>
+                      <p className="text-sm text-gray-500">ID: {contract.id}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigate(`/contracts/${contract.id}`)}
+                    className="text-blue-600 hover:text-blue-900 transition-colors duration-200 font-medium text-sm"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl flex items-center justify-center mr-4 shadow-sm">
-                          <DocumentTextIcon className="w-6 h-6 text-primary-600" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-medium text-secondary-900">{contract.name}</div>
-                          <div className="text-sm text-secondary-500">ID: {contract.id}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-secondary-900">{contract.parties}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-secondary-900">
-                        {new Date(contract.expiry).toLocaleDateString()}
-                      </div>
-                      <div className="text-xs text-secondary-500">
-                        {getDaysUntilExpiry(contract.expiry) > 0 
-                          ? `${getDaysUntilExpiry(contract.expiry)} days left`
-                          : 'Expired'
-                        }
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    View →
+                  </button>
+                </div>
+                
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-1">Parties</p>
+                    <p className="text-sm text-gray-900">{contract.parties}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-1">Expiry Date</p>
+                    <p className="text-sm text-gray-900">
+                      {new Date(contract.expiry).toLocaleDateString()}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {getDaysUntilExpiry(contract.expiry) > 0 
+                        ? `${getDaysUntilExpiry(contract.expiry)} days left`
+                        : 'Expired'
+                      }
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 mb-1">Status</p>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         contract.status === 'Active' 
-                          ? 'bg-success-100 text-success-800' 
+                          ? 'bg-green-100 text-green-800' 
                           : contract.status === 'Expired'
-                          ? 'bg-danger-100 text-danger-800'
-                          : 'bg-warning-100 text-warning-800'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-yellow-100 text-yellow-800'
                       }`}>
                         {getStatusIcon(contract.status)}
                         <span className="ml-1">{contract.status}</span>
                       </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRiskBadge(contract.risk)}`}>
-                          {getRiskIcon(contract.risk)}
-                          <span className="ml-1">{contract.risk}</span>
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
-                        onClick={() => navigate(`/contracts/${contract.id}`)}
-                        className="text-primary-600 hover:text-primary-900 transition-colors"
-                      >
-                        View Details
-                      </button>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 mb-1">Risk</p>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRiskBadge(contract.risk)}`}>
+                        {getRiskIcon(contract.risk)}
+                        <span className="ml-1">{contract.risk}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </>
       )}
 
       {/* Pagination */}
